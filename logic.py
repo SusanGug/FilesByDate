@@ -305,13 +305,23 @@ class FileManagementLogic:
             return None
 
     def create_folder_with_date(self):
+        errors = []
         for file_name in self.get_target_files():
             file_date = self.read_file_date_properties(file_name)
             folder_path = os.path.join(self.destination_folder_path, file_date)
-            # TODO: Check if the folder already exists, if exists, do not
-            # create the folder or overwrite the folder
+            # Check if the folder already exists, if exists, do not create or overwrite
             if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
+                try:
+                    os.makedirs(folder_path)
+                except PermissionError as e:
+                    error_msg = f"Permission denied: {folder_path} ({str(e)})"
+                    print(error_msg)
+                    errors.append(error_msg)
+                except Exception as e:
+                    error_msg = f"Error creating folder {folder_path}: {str(e)}"
+                    print(error_msg)
+                    errors.append(error_msg)
+        return errors
 
     def format_date(self):
         if self.format_type == "DD-MM-YYYY":
@@ -583,5 +593,8 @@ class FileManagementLogic:
         Main method to organize and copy files by their creation dates.
         Creates separate folders for each unique date and copies files accordingly.
         """
-        self.create_folder_with_date()
-        return self.copy_files_to_destination_folder()
+        folder_errors = self.create_folder_with_date()
+        copied_files, copy_errors = self.copy_files_to_destination_folder()
+        # Combine errors from folder creation and copy
+        all_errors = folder_errors + copy_errors
+        return copied_files, all_errors
