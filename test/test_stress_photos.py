@@ -10,7 +10,7 @@ class TestStressPhotoCopy(unittest.TestCase):
         self.dest_dir = 'test_stress_photos_dest'
         os.makedirs(self.dest_dir, exist_ok=True)
         # Generate 1000 test images
-        generate_test_images(self.source_dir, 1000)
+        generate_test_images(self.source_dir, 5000)
 
     def tearDown(self):
         shutil.rmtree(self.source_dir, ignore_errors=True)
