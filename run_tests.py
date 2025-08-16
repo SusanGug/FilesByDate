@@ -41,10 +41,10 @@ def run_tests(test_level='all', verbose=False):
     # Define test modules/classes based on level
     if test_level == 'all':
         # Load all tests
-        suite = loader.discover('test', pattern='test_*.py')
+        suite = loader.discover('tests', pattern='test_*.py')
     elif test_level == 'basic':
         # Load only basic functionality tests
-        from test.test_logic import TestFileManagementLogic
+        from tests.test_logic import TestFileManagementLogic
         suite = unittest.TestSuite()
         suite.addTest(TestFileManagementLogic('test_initialization'))
         suite.addTest(TestFileManagementLogic(
@@ -55,7 +55,7 @@ def run_tests(test_level='all', verbose=False):
             'test_read_file_date_properties'))
     elif test_level == 'operations':
         # Load file operation tests
-        from test.test_logic import TestFileManagementLogic
+        from tests.test_logic import TestFileManagementLogic
         suite = unittest.TestSuite()
         suite.addTest(TestFileManagementLogic('test_copy_operation_success'))
         suite.addTest(TestFileManagementLogic('test_move_operation_success'))
@@ -64,7 +64,7 @@ def run_tests(test_level='all', verbose=False):
         suite.addTest(TestFileManagementLogic('test_folder_creation'))
     elif test_level == 'undo':
         # Load undo functionality tests
-        from test.test_logic import TestFileManagementLogic
+        from tests.test_logic import TestFileManagementLogic
         suite = unittest.TestSuite()
         suite.addTest(TestFileManagementLogic('test_undo_copy_operation'))
         suite.addTest(TestFileManagementLogic('test_undo_move_operation'))
@@ -73,7 +73,7 @@ def run_tests(test_level='all', verbose=False):
             'test_undo_clears_operation_history'))
     elif test_level == 'errors':
         # Load error handling tests
-        from test.test_logic import TestFileManagementLogic
+        from tests.test_logic import TestFileManagementLogic
         suite = unittest.TestSuite()
         suite.addTest(TestFileManagementLogic(
             'test_nonexistent_source_folder'))
@@ -129,8 +129,8 @@ def print_test_summary():
     print("=" * 50)
     print("📋 basic      - Basic functionality tests")
     print("📁 operations - File copy/move operation tests")
-    print("↩️  undo       - Undo functionality tests")
-    print("⚠️  errors     - Error handling tests")
+    print("↩️ undo       - Undo functionality tests")
+    print("⚠️ errors     - Error handling tests")
     print("🔍 all        - All tests (default)")
     print()
     print("💡 Examples:")
