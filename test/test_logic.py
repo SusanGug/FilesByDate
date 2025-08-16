@@ -134,7 +134,8 @@ class TestFileManagementLogic(unittest.TestCase):
         
         # Verify operation tracking
         self.assertIsNotNone(self.file_management_logic.last_operation)
-        self.assertEqual(self.file_management_logic.last_operation['type'], 'copy')
+        if self.file_management_logic.last_operation:  # Check if not None
+            self.assertEqual(self.file_management_logic.last_operation['type'], 'copy')
 
     def test_move_operation_success(self):
         """Test successful file move operation."""
@@ -152,7 +153,8 @@ class TestFileManagementLogic(unittest.TestCase):
         
         # Verify operation tracking
         self.assertIsNotNone(self.file_management_logic.last_operation)
-        self.assertEqual(self.file_management_logic.last_operation['type'], 'move')
+        if self.file_management_logic.last_operation:  # Check if not None
+            self.assertEqual(self.file_management_logic.last_operation['type'], 'move')
 
     def test_duplicate_filename_handling(self):
         """Test handling of duplicate filenames."""
@@ -323,6 +325,9 @@ class TestFileManagementLogic(unittest.TestCase):
 
     def test_operation_history_limit(self):
         """Test that operation history is limited to prevent memory issues."""
+        # Initialize logic outside the loop to ensure it's defined
+        logic = FileManagementLogic(self.target_folder_path, self.project_folder_path, self.format_type)
+        
         # Perform multiple operations
         for i in range(15):  # More than the 10-operation limit
             # Create a new file for each operation
@@ -331,7 +336,6 @@ class TestFileManagementLogic(unittest.TestCase):
             with open(file_path, 'w') as f:
                 f.write(f'Test content {i}')
             
-            logic = FileManagementLogic(self.target_folder_path, self.project_folder_path, self.format_type)
             logic.copy()
             
             # Clear the file after operation
