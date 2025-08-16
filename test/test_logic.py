@@ -1,7 +1,6 @@
 import unittest
 import os
 import tempfile
-import shutil
 from datetime import datetime
 from logic import FileManagementLogic
 

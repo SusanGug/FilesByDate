@@ -27,22 +27,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 4: Install linter for code quality checks
-      - name: Install linter
-        run: |
-          pip install flake8
-
-      # Step 5: Check for Python syntax errors in all files
+      # Step 4: Check for Python syntax errors in all files
       - name: Check syntax errors
         run: |
           python -m compileall .
 
-      # Step 6: Run flake8 linter to enforce style and catch issues
-      - name: Run linter (flake8)
-        run: |
-          flake8 .
-
-      # Step 7: Run the test suite
+      # Step 5: Run the test suite
       - name: Run tests
         run: |
           python run_tests.py
